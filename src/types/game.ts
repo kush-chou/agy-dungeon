@@ -7,6 +7,17 @@ export interface PlayerStats {
   voidResistance: number;
 }
 
+export interface ItemDef {
+  id: string;
+  name: string;
+  type: 'weapon' | 'consumable' | 'relic' | 'armor';
+  description: string;
+  effect: string;
+  hpRestore?: number;
+  entropyReduce?: number;
+  gravityBoost?: number;
+}
+
 export interface Player {
   id: string;
   name: string;
@@ -15,6 +26,7 @@ export interface Player {
   maxHp: number;
   entropy: number; // 0 to 100
   inventory: string[];
+  equippedWeapon?: string;
   stats: PlayerStats;
   level: number;
   score: number;
@@ -28,6 +40,7 @@ export interface PartyMember {
   maxHp: number;
   isReady: boolean;
   ping: number;
+  isPeer?: boolean;
 }
 
 export interface ChoiceOption {
@@ -48,6 +61,18 @@ export interface LogEntry {
   radiantBonus?: string;
 }
 
+export interface Enemy {
+  name: string;
+  hp: number;
+  maxHp: number;
+  attack: string;
+  damage: number;
+  weakness?: string;
+  special?: string;
+  drop?: string;
+  phase?: number;
+}
+
 export interface Room {
   id: string;
   floor: number;
@@ -56,21 +81,18 @@ export interface Room {
   description: string;
   exits: string[];
   hazards?: string[];
-  enemy?: {
-    name: string;
-    hp: number;
-    maxHp: number;
-    attack: string;
-  };
+  items?: string[];
+  enemy?: Enemy;
 }
 
-export type AIProvider = 'builtin' | 'gemini' | 'openai' | 'anthropic' | 'groq' | 'ollama';
+export type AIProvider = 'builtin' | 'webllm' | 'gemini' | 'openai' | 'anthropic' | 'groq' | 'deepseek' | 'ollama';
 
 export interface AIConfig {
   provider: AIProvider;
   apiKey: string;
   model: string;
   customEndpoint?: string;
+  temperature?: number;
 }
 
-export type TerminalTheme = 'obsidian' | 'matrix' | 'amber' | 'cyber';
+export type TerminalTheme = 'obsidian' | 'matrix' | 'amber' | 'cyber' | 'sol';
